@@ -2,15 +2,17 @@
 
 {% block title %}Inscription
 {% endblock %}
-
+	{% block h1 %}Inscription
+	{% endblock %}
 {% block body %}
 	{% for flashError in app.flashes('verify_email_error') %}
 		<div class="alert alert-success" role="alert">{{ flashError }}</div>
 	{% endfor %}
-	{% block h1 %}Inscription
-	{% endblock %}
 
-	<div class="col-md-6 mx-auto mt-3">
+
+
+
+	<div class="mx-auto col-md-4 mt-3">
 		{{ form_start(registrationForm) }}
 		{{ form_row(registrationForm.email) }}
 		{{ form_row(registrationForm.password.first) }}
@@ -26,7 +28,7 @@
 		<br>
 		{{ form_row(registrationForm.conditions) }}
 
-		<input type="submit" value="Inscrire" class="btn btn-dark col-md-12 mt-3">
+		<input type="submit" value="S'inscrire" class="btn btn-dark col-md-12 mt-3">
 		{{ form_end(registrationForm) }}
 	</div>
 {% endblock %}

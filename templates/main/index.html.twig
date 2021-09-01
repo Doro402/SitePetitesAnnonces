@@ -15,12 +15,12 @@
 		l'objet user (contenant id email password prenoms noms roles etc) est ragjouté dans cette variable sous le nom user
 		#}
 	<h2>
-		{#% if app.user %}
+		{% if app.user %}
 			Bonjour
 			{{app.user.prenom}} !
 		{% else %}
 			Bonjour
-		{% endif %#}
+		{% endif %}
 	</h2>
 
 {% endblock %}
