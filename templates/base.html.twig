@@ -30,8 +30,12 @@
 						<a class="nav-link" href="{{path('app_home') }}">Accueil</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Annonce</a>
+						<a class="nav-link" href="{{ path ("annonce_afficher")}}">Gestion des annonces</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('categorie_afficher') }} ">Catégories</a>
+					</li>
+
 
 					<li class="nav-item">
 						{% if app.user %}

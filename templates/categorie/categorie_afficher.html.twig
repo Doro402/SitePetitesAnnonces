@@ -1,0 +1,62 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	{{parent()}}Gestion des catégories
+{% endblock %}
+{% block h1 %}
+	Gestion des catégories
+{% endblock %}
+{% block body %}
+
+
+	<a href="{{ path ('categorie_ajouter') }}" class="btn btn-danger m-4">Ajouter une catégorie</a>
+
+	<div class="col-md-8 mx-auto">
+
+		{% for notification in app.flashes('success') %}
+			<div class="text-center text-light bg-success mx-auto col-md-6 p-4">{{ notification }}</div>
+		{% endfor %}
+
+
+		{% if categories %}
+			<table class="table table-hover table-striped text-center mt-3">
+
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Catégorie</th>
+						<th>Mots Clefs</th>
+						<th>Modifier</th>
+						<th>Supprimer</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{% for categorie in categories %}
+						<tr>
+							<td>{{ categorie.id }}</td>
+							<td>{{ categorie.titre }}</td>
+							<td>{{ categorie.motscles }}</td>
+							<td>
+								<a href="{{ path('categorie_modifier', {"id" : categorie.id } ) }}">
+									<img src="{{ asset('images/update.png')}}" alt="logo update">
+								</a>
+							</td>
+							<td>
+								<a href="{{path('categorie_supprimer', {"id" : categorie.id} ) }}">
+									<img src="{{ asset('images/delete.png')}}" alt="logo suppresion">
+								</a>
+							</td>
+
+						</tr>
+					{% endfor %}
+				</tbody>
+
+			{% else %}
+
+
+				<h4 class="text-center text-danger mt-3 fst-italic">Il n'y a aucune catégorie pour le moment</h4>
+
+			{% endif %}
+
+
+		{% endblock %}

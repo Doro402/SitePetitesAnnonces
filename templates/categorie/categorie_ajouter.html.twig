@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	Ajout d'une catégorie{{parent()}}
+{% endblock %}
+{% block h1 %}
+	Ajout des catégories
+{% endblock %}
+{% block body %}
+	<a class="btn btn-info m-3" href="{{path('categorie_afficher')}}">Gestion des catégories</a>
+	<div class="col-md-6 mx-auto">
+		{{ form_start(formCategorie) }}
+		{{ form_row(formCategorie.titre) }}
+    {{ form_row(formCategorie.motscles) }}
+		<input type="submit" value="Ajouter" class="btn btn-danger col-md-12 mt-3">
+		{{ form_end(formCategorie) }}
+	</div>
+{% endblock %}
+
+
+
+

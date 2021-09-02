@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Nouvelle Annonce
+{% endblock %}
+{% block h1 %}Ajouter une annonce
+{% endblock %}
+{% block body %}
+
+
+	<a href="{{ path('annonce_afficher') }}">Retour aux annonces</a>
+
+	<div class="col-md-6 mx-auto">
+		{{ form_start(formAnnonce1) }}
+
+		{{ form_row(formAnnonce1.titre) }}
+		{{ form_rest(formAnnonce1) }}
+		<input type="submit" value="Ajouter" class="btn btn-danger col-md-12 mt-3">
+
+		{{ form_end(formAnnonce1) }}
+
+
+	</div>
+
+{% endblock %}
