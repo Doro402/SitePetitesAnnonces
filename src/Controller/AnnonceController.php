@@ -5,91 +5,112 @@ namespace App\Controller;
 use App\Entity\Annonce;
 use App\Form\Annonce1Type;
 use App\Repository\AnnonceRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/annonce")
  */
 class AnnonceController extends AbstractController
 {
-    /**
-     * @Route("/", name="annonce_afficher", methods={"GET"})
-     */
-    public function annonce(AnnonceRepository $annonceRepository): Response
-    {
-        return $this->render('annonce/annonce_afficher.html.twig', [
-            'annonces' => $annonceRepository->findAll(),
-        ]);
+  /**
+   * @Route("/", name="annonce_afficher", methods={"GET"})
+   */
+  public function annonce(AnnonceRepository $annonceRepository): Response
+  {
+    return $this->render('annonce/annonce_afficher.html.twig', [
+      'annonces' => $annonceRepository->findAll(),
+    ]);
+  }
+
+  /**
+   * @Route("/new", name="annonce_ajouter", methods={"GET","POST"})
+   */
+  public function new(Request $request): Response
+  {
+    $annonce = new Annonce();
+    $form = $this->createForm(Annonce1Type::class, $annonce);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $entityManager = $this->getDoctrine()->getManager();
+      $annonce->setDateEnregistrement(new \DateTimeImmutable('now'));
+      $entityManager->persist($annonce);
+      $entityManager->flush();
+
+      return $this->redirectToRoute('annonce_afficher', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/new", name="annonce_ajouter", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $annonce = new Annonce();
-        $form = $this->createForm(Annonce1Type::class, $annonce);
-        $form->handleRequest($request);
+    return $this->renderForm('annonce/annonce_ajouter.html.twig', [
+      'annonce' => $annonce,
+      'formAnnonce1' => $form,
+    ]);
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $annonce->setDateEnregistrement(new \DateTimeImmutable('now'));
-            $entityManager->persist($annonce);
-            $entityManager->flush();
+  /**
+   * @Route("/{id}", name="annonce_show", methods={"GET"})
+   */
+  public function show(Annonce $annonce): Response
+  {
+    return $this->render('annonce/annonce_show.html.twig', [
+      'annonce' => $annonce,
+    ]);
+  }
 
-            return $this->redirectToRoute('annonce_afficher', [], Response::HTTP_SEE_OTHER);
-        }
+  /**
+   * @Route("/{id}/edit", name="annonce_modifier", methods={"GET","POST"})
+   */
+  public function edit(Request $request, Annonce $annonce): Response
+  {
+    $form = $this->createForm(Annonce1Type::class, $annonce);
+    $form->handleRequest($request);
 
-        return $this->renderForm('annonce/annonce_ajouter.html.twig', [
-            'annonce' => $annonce,
-            'formAnnonce1' => $form,
-        ]);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $this->getDoctrine()->getManager()->flush();
+
+      return $this->redirectToRoute('annonce_afficher', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/{id}", name="annonce_show", methods={"GET"})
-     */
-    public function show(Annonce $annonce): Response
-    {
-        return $this->render('annonce/annonce_show.html.twig', [
-            'annonce' => $annonce,
-        ]);
-    }
+    return $this->renderForm('annonce/annonce_modifier.html.twig', [
+      'annonce' => $annonce,
+      'form' => $form,
+    ]);
+  }
 
-    /**
-     * @Route("/{id}/edit", name="annonce_modifier", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Annonce $annonce): Response
-    {
-        $form = $this->createForm(Annonce1Type::class, $annonce);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+  /**
+   * @Route("/annonce/supprimer/{id}", name="annonce_supprimer")
+   */
+  public function annonce_supprimer(Annonce $annonce, EntityManagerInterface $manager): Response
+  {
 
-            return $this->redirectToRoute('annonce_afficher', [], Response::HTTP_SEE_OTHER);
-        }
+    $idAnnonce = $annonce->getId();
+    $manager->remove($annonce);
+    $manager->flush();
 
-        return $this->renderForm('annonce/annonce_modifier.html.twig', [
-            'annonce' => $annonce,
-            'form' => $form,
-        ]);
-    }
 
-    /**
-     * @Route("/{id}", name="annonce_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Annonce $annonce): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $annonce->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($annonce);
-            $entityManager->flush();
-        }
+    $this->addFlash("success", "L'annonce $idAnnonce a bien été supprimée");
 
-        return $this->redirectToRoute('annonce_afficher', [], Response::HTTP_SEE_OTHER);
-    }
+    return $this->redirectToRoute('annonce_afficher');
+
+
+
+    return $this->render('$/annonce/annonce_supprimer.html.twig', []);
+  }
 }
+  // /**
+  //  * @Route("/annonce/{id}", name="annonce_supprimer", methods={"POST"})
+  //  */
+  // public function delete(Request $request, Annonce $annonce): Response
+  // {
+  //     if ($this->isCsrfTokenValid('delete' . $annonce->getId(), $request->request->get('_token'))) {
+  //         $entityManager = $this->getDoctrine()->getManager();
+  //         $entityManager->remove($annonce);
+  //         $entityManager->flush();
+  //     }
+
+  //     return $this->redirectToRoute('annonce_afficher', [], Response::HTTP_SEE_OTHER);
+  // }
