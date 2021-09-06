@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block title %}{{parent()}}
+  Mon profil
+{% endblock %}
+{% block h1 %}Votre profil{% endblock %}
+{% block body %}
+  
+	<a href=" {{ path('annonce_afficher') }} " class="btn btn-success m-4">Gestion de vos annonces</a>
+	<div class="col-md-8 mx-auto">
+<div class="row">
+<p>{{app.user.pseudo}}</p>
+<br>
+<p>{{app.user.nom}}
+</p>
+<br>
+<p>{{app.user.prenom}}
+</p>
+<br>
+<p>{{app.user.email}}
+</p>
+<br>
+<p>{{app.user.adresse}}
+</p>
+<br>
+<p>{{app.user.cp}}
+</p>
+<br>
+{{app.user.ville}}
+<br>
+{{app.user.prenom}}
+<br>
+{{app.user.telephone}}
+</div>
+
+
+
+{% endblock %}

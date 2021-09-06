@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}
+	Annonces
+{% endblock %}
+{% block h1 %}
+	Annonces
+{% endblock %}
+{% block body %}
+
+	<a href=" {{ path('annonce_ajouter') }} " class="btn btn-success m-4">Annonces</a>
+	<div class="col-md-8 mx-auto">
+
+		{% for notification in app.flashes('success') %}
+			<div class="text-center text-light bg-success mx-auto col-md-6 p-4">{{ notification }}</div>
+		{% endfor %}
+
+		{% if annonces %}
+			<table class="table table-hover table-striped text-center mt-3">
+				<thead>
+					<tr>
+
+						<th>Titre</th>
+						<th>Description Courte</th>
+						<th>Description Longue</th>
+						<th>Prix</th>
+						<th>Adresse</th>
+						<th>Cp</th>
+						<th>Ville</th>
+						<th>Catégorie</th>
+						<th>Date d'enregistrement</th>
+
+
+					</tr>
+				</thead>
+				<tbody>
+					{% for annonce in annonces %}
+						<tr>
+							<td>{{ annonce.titre }}</td>
+							<td>{{ annonce.descriptionCourte }}</td>
+							<td>{{ annonce.descriptionLongue }}</td>
+							<td>{{ annonce.prix }}</td>
+							<td>{{ annonce.adresse }}</td>
+							<td>{{ annonce.cp }}</td>
+							<td>{{ annonce.ville }}</td>
+							<td>{{ annonce.categorie.titre }}</td>
+
+							<td>{{ annonce.dateEnregistrement ? annonce.dateEnregistrement|date('Y-m-d H:i:s') : '' }}</td>
+
+						</tr>
+
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<h4 class="text-center text-danger mt-3 fst-italic">Vous n'avez publié aucune annonce pour le moment</h4>
+		{% endif %}
+	</div>
+{% endblock %}

@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AnnonceController extends AbstractController
 {
   /**
-   * @Route("/", name="annonce_afficher", methods={"GET"})
+   * @Route("/user", name="annonce_afficher", methods={"GET"})
    */
   public function annonce(AnnonceRepository $annonceRepository): Response
   {
@@ -25,6 +25,18 @@ class AnnonceController extends AbstractController
       'annonces' => $annonceRepository->findAll(),
     ]);
   }
+
+
+  
+    /**
+     * @Route("/", name="annonce_presentation", methods={"GET"})
+     */
+    public function annonce_presentation(AnnonceRepository $annonceRepository): Response
+    {
+      return $this->render('annonce/annonce_presentation.html.twig', [
+        'annonces' => $annonceRepository->findAll(),
+      ]);
+    }
 
   /**
    * @Route("/new", name="annonce_ajouter", methods={"GET","POST"})
@@ -98,7 +110,7 @@ class AnnonceController extends AbstractController
 
 
 
-    return $this->render('$/annonce/annonce_supprimer.html.twig', []);
+    return $this->render('/annonce/annonce_supprimer.html.twig', []);
   }
 }
   // /**
@@ -113,4 +125,4 @@ class AnnonceController extends AbstractController
   //     }
 
   //     return $this->redirectToRoute('annonce_afficher', [], Response::HTTP_SEE_OTHER);
-  // }
+  // }}
