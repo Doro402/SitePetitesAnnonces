@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	{{parent()}}Gestion des magasin
+{% endblock %}
+{% block h1 %}
+	Gestion des magasin
+{% endblock %}
+{% block body %}
+
+
+	<a href="{{ path ('magasin_ajouter') }}" class="btn btn-danger m-4">Ajouter un magasin</a>
+
+	<div class="col-md-8 mx-auto">
+
+		{% for notification in app.flashes('success') %}
+			<div class="text-center text-light bg-success mx-auto col-md-6 p-4">{{ notification }}</div>
+		{% endfor %}
+
+
+		{% if magasins %}
+			<table class="table table-hover table-striped text-center mt-3">
+
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>nom</th>
+						<th>lienmap</th>
+						<th>ville</th>
+					
+
+					</tr>
+				</thead>
+				<tbody>
+					{% for magasin in magasins %}
+						<tr>
+							<td>{{ magasin.id }}</td>
+							<td>{{ magasin.nom }}</td>
+							<td>{{ magasin.lienMap }}</td>
+							<td>{{ magasin.ville }}</td>
+							<td>
+								<a href="{{ path('magasin_modifier', {"id" : magasin.id } ) }}">
+									<img src="{{ asset('images/update.png')}}" alt="logo update">
+								</a>
+							</td>
+							<td>
+								<a href="{{path('magasin_supprimer', {"id" : magasin.id} ) }}">
+									<img src="{{ asset('images/delete.png')}}" alt="logo suppresion">
+								</a>
+							</td>
+
+						</tr>
+					{% endfor %}
+				</tbody>
+
+			{% else %}
+
+
+				<h4 class="text-center text-danger mt-3 fst-italic">Il n'y a aucun magasin pour le moment</h4>
+
+		{% endif %}
+
+
+{% endblock %}

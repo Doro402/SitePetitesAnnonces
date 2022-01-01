@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}
+Candidature
+{% endblock %}
+{% block h1 %}
+Candidature
+{% endblock %}
+{% block body %}
+
+	<a href=" {{ path('candidat_ajouter') }} " class="btn btn-success m-4">Candidature</a>
+	<div class="col-md-8 mx-auto">
+
+		{% for notification in app.flashes('success') %}
+			<div class="text-center text-light bg-success mx-auto col-md-6 p-4">{{ notification }}</div>
+		{% endfor %}
+
+		{% if candidatures %}
+			<table class="table table-hover table-striped text-center mt-3">
+				<thead>
+					<tr>
+
+					<th>Id</th>
+                    <th>nom</th>
+                    <th>prenom</th>
+                    <th>email</th>
+                    <th>numero</th>
+                    <th>message</th>
+                    <th>cv</th>
+                    <th>Supprimer</th>
+
+
+					</tr>
+				</thead>
+				<tbody>
+					{% for candidature in candidatures %}
+                    <tr>
+                    <td>{{ candidat.id }}</td>
+                    <td>{{ candidat.nom }}</td>
+                    <td>{{ candidat.prenom }}</td>
+                    <td>{{ candidat.email }}</td>
+                    <td>{{ candidat.numero }}</td>
+                    <td>{{ candidat.message }}</td>
+                    <td>{{ candidat.cv }}</td>
+                    <td>
+                        <a href="{{ path('candidat_modifier', {"id" : candidat.id } ) }}">
+                            <img src="{{ asset('images/update.png')}}" alt="logo update">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{path('candidat_supprimer', {"id" : candidat.id} ) }}">
+                            <img src="{{ asset('images/delete.png')}}" alt="logo suppresion">
+                        </a>
+                    </td>
+                </tr>
+
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<h4 class="text-center text-danger mt-3 fst-italic">Vous n'avez publié aucune candidature pour le moment</h4>
+		{% endif %}
+	</div>
+{% endblock %}

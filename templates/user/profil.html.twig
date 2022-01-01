@@ -5,7 +5,7 @@
 {% block h1 %}Votre profil{% endblock %}
 {% block body %}
   
-	<a href=" {{ path('annonce_afficher') }} " class="btn btn-success m-4">Gestion de vos annonces</a>
+	<a href=" {{ path('annonce_afficher') }} " class="btn btn-success m-4">Gestion de vos offres/a>
 	<div class="col-md-8 mx-auto">
 <div class="row">
 <p>{{app.user.pseudo}}</p>
@@ -26,6 +26,9 @@
 </p>
 <br>
 {{app.user.ville}}
+<br>
+<br>
+{{app.user.magasin}}
 <br>
 {{app.user.prenom}}
 <br>

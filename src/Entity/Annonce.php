@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\User;
 use App\Entity\Categorie;
+use App\Entity\Magasin;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\Collection;
@@ -36,25 +37,6 @@ class Annonce
      */
     private $description_longue;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $prix;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $adresse;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $cp;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $ville;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -82,11 +64,24 @@ class Annonce
      */
     private $photos;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Magasin::class, inversedBy="annonces")
+     */
+    private $magasin;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Candidat::class, mappedBy="annonces")
+     */
+    private $candidats;
+
+  
+
     public function __construct()
     {
         //$this->user = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->photos = new ArrayCollection();
+        $this->candidats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,53 +125,6 @@ class Annonce
         return $this;
     }
 
-    public function getPrix(): ?int
-    {
-        return $this->prix;
-    }
-
-    public function setPrix(int $prix): self
-    {
-        $this->prix = $prix;
-
-        return $this;
-    }
-
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getCp(): ?string
-    {
-        return $this->cp;
-    }
-
-    public function setCp(string $cp): self
-    {
-        $this->cp = $cp;
-
-        return $this;
-    }
-
-    public function getVille(): ?string
-    {
-        return $this->ville;
-    }
-
-    public function setVille(string $ville): self
-    {
-        $this->ville = $ville;
-
-        return $this;
-    }
 
     public function getDateEnregistrement(): ?\DateTimeImmutable
     {
@@ -273,4 +221,48 @@ class Annonce
 
         return $this;
     }
+
+    public function getMagasin(): ?Magasin
+    {
+        return $this->magasin;
+    }
+
+    public function setMagasin(?Magasin $magasin): self
+    {
+        $this->magasin = $magasin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Candidat[]
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidat $candidat): self
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats[] = $candidat;
+            $candidat->setAnnonces($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidat $candidat): self
+    {
+        if ($this->candidats->removeElement($candidat)) {
+            // set the owning side to null (unless already changed)
+            if ($candidat->getAnnonces() === $this) {
+                $candidat->setAnnonces(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 }

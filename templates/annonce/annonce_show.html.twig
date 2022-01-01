@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}}Annonce{% endblock %}
+{% block title %}{{parent()}}Offres {% endblock %}
 {% block h1 %}Annonces{% endblock %}
 {% block body %}
     <h1>Annonce</h1>
@@ -23,20 +23,20 @@
                 <th>Description_longue</th>
                 <td>{{ annonce.descriptionLongue }}</td>
             </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ annonce.prix }}</td>
-            </tr>
-            <tr>
+            
                 <th>Adresse</th>
                 <td>{{ annonce.adresse }}</td>
             </tr>
             <tr>
-                <th>Cp</th>
+                <th>Cm</th>
                 <td>{{ annonce.cp }}</td>
             </tr>
             <tr>
-                <th>Ville</th>
+            <th>magasin</th>
+            <td>{{ annonce.cp }}</td>
+        </tr>
+            <tr>
+                <th>Zone</th>
                 <td>{{ annonce.ville }}</td>
             </tr>
             <tr>
@@ -46,7 +46,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('annonce_afficher') }}">Retour aux annonces</a>
+    <a href="{{ path('annonce_afficher') }}">Retour aux oofrs</a>
 
     <a href="{{ path('annonce_modifier', {'id': annonce.id}) }}">edit</a>
 

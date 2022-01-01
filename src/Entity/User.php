@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -30,10 +31,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = ["ROLE_USER"];
+
+    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -78,7 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $civilite;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="date")
      */
     private $date_enregistrement;
 
@@ -107,11 +106,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $notes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Profil::class, inversedBy="users")
+     */
+    private $profile;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->date_enregistrement = new DateTime();
     }
 
     public function getId(): ?int
@@ -148,6 +153,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
     /**
      * @see UserInterface
@@ -156,7 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_'.strtoupper(($this->profil->getLibelle()));
 
         return array_unique($roles);
     }
@@ -287,12 +298,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateEnregistrement(): ?\DateTimeImmutable
+    public function getDateEnregistrement(): ?\DateTimeInterface 
     {
         return $this->date_enregistrement;
     }
 
-    public function setDateEnregistrement(\DateTimeImmutable $date_enregistrement): self
+    public function setDateEnregistrement(\DateTimeInterface  $date_enregistrement): self
     {
         $this->date_enregistrement = $date_enregistrement;
 
@@ -409,6 +420,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $note->setUser1(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profil
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?Profil $profile): self
+    {
+        $this->profile = $profile;
 
         return $this;
     }

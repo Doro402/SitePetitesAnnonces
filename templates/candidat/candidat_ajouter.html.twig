@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Nouvelle Candidature
+{% endblock %}
+{% block h1 %}Ajouter une candidature
+{% endblock %}
+{% block body %}
+
+	<a href="{{ path('candidat_afficher') }}">Retour</a>
+
+	<div class="col-md-6 mx-auto">
+		{{ form_start(formCandidat) }}
+		{{ form_rest(formCandidat.nom) }}
+		{{ form_rest(formCandidat.prenom) }}
+		{{ form_end(formCandidat) }}
+
+		<input type="submit" value="Ajouter" class="btn btn-danger col-md-12 mt-3">
+
+	</div>
+
+{% endblock %}

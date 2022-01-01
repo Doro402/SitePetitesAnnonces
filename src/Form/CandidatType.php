@@ -3,9 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Entity\Annonce;
-use App\Entity\Categorie;
-use App\Entity\Magasin;
+use App\Entity\Candidat;
 use PackageVersions\FallbackVersions;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,49 +13,53 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class Annonce1Type extends AbstractType
+class CandidatType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-      ->add('titre', TextType::class, [
-        "label" => "titre",
+      ->add('nom', TextType::class, [
+        "label" => "nom",
         "required" => false,
         "attr" => [
-          "placeholder" => "Saisir le titre de l'offre"
+          "placeholder" => "Saisir votre nom"
         ]
       ])
-      ->add('description_courte', TextType::class, [
-        "label" => "Description",
+      ->add('prenom', TextType::class, [
+        "label" => "prenom",
         "required" => "false",
         "attr" => [
-          "placeholder" => "Saisir une description sommaire",
+          "placeholder" => "Saisir un prenom",
         ]
       ])
-      ->add('description_longue', TextareaType::class, [
-        "label" => "Explications",
+      ->add('email', TextType::class, [
+        "label" => "email",
         "required" => "false",
         "attr" => [
-          "placeholder" => "Veuillez décrire votre produit en détail "
+          "placeholder" => "Veuillez décrire votre email "
         ]
       ])
-      ->add('categorie', EntityType::class, [
-        "class" => Categorie::class,
-        "choice_label" => "titre",
-        //"mapped" => false,
+      ->add('telephone', EntityType::class, [
+        "class" => Candidat::class,
+        "choice_label" => "telephone", 
       ])
 
-      ->add('magasin', EntityType::class, [
-        "class" => Magasin::class,
-        "choice_label" => "nom",
-        //"mapped" => false,
+      ->add('message', EntityType::class, [
+        "class" => Candidat::class,
+        "choice_label" => "message",
+        
+      ])
+      ->add('cv', EntityType::class, [
+        "class" => Candidat::class,
+        "choice_label" => "cv",
+       
       ]);
   }
 
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults([
-      'data_class' => Annonce::class,
+      'data_class' => Candidat::class,
       // Class "App\Form\CategorieType" seems not to be a managed Doctrine entity. Did you forget to map it?
     ]);
   }

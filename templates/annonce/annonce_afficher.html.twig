@@ -2,10 +2,10 @@
 
 {% block title %}
 	{{parent()}}
-	Gestion des annonces
+	Gestion des Offres
 {% endblock %}
 {% block h1 %}
-	Gestion des annonces
+	Gestion des offres
 {% endblock %}
 {% block body %}
 
@@ -24,10 +24,6 @@
 						<th>Titre</th>
 						<th>Description Courte</th>
 						<th>Description Longue</th>
-						<th>Prix</th>
-						<th>Adresse</th>
-						<th>Cp</th>
-						<th>Ville</th>
 						<th>Catégorie</th>
 						<th>Date d'enregistrement</th>
 						<th>Modifier</th>
@@ -42,12 +38,7 @@
 							<td>{{ annonce.titre }}</td>
 							<td>{{ annonce.descriptionCourte }}</td>
 							<td>{{ annonce.descriptionLongue }}</td>
-							<td>{{ annonce.prix }}</td>
-							<td>{{ annonce.adresse }}</td>
-							<td>{{ annonce.cp }}</td>
-							<td>{{ annonce.ville }}</td>
 							<td>{{ annonce.categorie.titre }}</td>
-
 							<td>{{ annonce.dateEnregistrement ? annonce.dateEnregistrement|date('Y-m-d H:i:s') : '' }}</td>
 							<td>
 								<a href="{{ path('annonce_modifier', {"id" : annonce.id } ) }}">

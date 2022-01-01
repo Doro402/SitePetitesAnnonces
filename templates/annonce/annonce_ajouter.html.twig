@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{parent()}}Nouvelle Annonce
+	{{parent()}}Nouvelle OFFRE
 {% endblock %}
-{% block h1 %}Ajouter une annonce
+{% block h1 %}Ajouter une Offre
 {% endblock %}
 {% block body %}
 
 
-	<a href="{{ path('annonce_afficher') }}">Retour aux annonces</a>
+	<a href="{{ path('annonce_afficher') }}">Retour aux Offre</a>
 
 	<div class="col-md-6 mx-auto">
 		{{ form_start(formAnnonce1) }}

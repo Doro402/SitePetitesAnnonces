@@ -2,10 +2,10 @@
 
 {% block title %}
 	{{parent()}}
-	Annonces
+	Offres
 {% endblock %}
 {% block h1 %}
-	Annonces
+	Offres
 {% endblock %}
 {% block body %}
 
@@ -24,12 +24,11 @@
 						<th>Titre</th>
 						<th>Description Courte</th>
 						<th>Description Longue</th>
-						<th>Prix</th>
-						<th>Adresse</th>
-						<th>Cp</th>
-						<th>Ville</th>
 						<th>Catégorie</th>
 						<th>Date d'enregistrement</th>
+						<th>ville</th>
+						<th>localisation</th>
+						<th>action</th>
 
 
 					</tr>
@@ -40,14 +39,18 @@
 							<td>{{ annonce.titre }}</td>
 							<td>{{ annonce.descriptionCourte }}</td>
 							<td>{{ annonce.descriptionLongue }}</td>
-							<td>{{ annonce.prix }}</td>
-							<td>{{ annonce.adresse }}</td>
-							<td>{{ annonce.cp }}</td>
-							<td>{{ annonce.ville }}</td>
 							<td>{{ annonce.categorie.titre }}</td>
-
 							<td>{{ annonce.dateEnregistrement ? annonce.dateEnregistrement|date('Y-m-d H:i:s') : '' }}</td>
-
+							<td>{{ annonce.magasin.ville }}</td>
+							<td>
+								<a href="{{ annonce.magasin.lienMap }}">Ouvrir sur MAP</a>
+							</td>
+							<td>
+								<a href="{{ annonce.magasin.lienMap }}">postuler</a>
+							</td>
+							<td>
+							<a href="{{ annonce.magasin.lienMap }}">voir details</a>
+						</td>
 						</tr>
 
 					{% endfor %}

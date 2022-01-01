@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	Ajout d'un Magasin{{parent()}}
+{% endblock %}
+{% block h1 %}
+	Ajout des magasins
+{% endblock %}
+{% block body %}
+	<a class="btn btn-info m-3" href="{{path('magasin_afficher')}}">Gestion des magasin</a>
+	<div class="col-md-6 mx-auto">
+		{{ form_start(formMagasin) }}
+		{{ form_row(formMagasin.nom) }}
+		{{ form_row(formMagasin.ville) }}
+		{{ form_row(formMagasin.lienMap) }}
+    
+		<input type="submit" value="Ajouter" class="btn btn-danger col-md-12 mt-3">
+		{{ form_end(formMagasin) }}
+	</div>
+{% endblock %}
+
+
+
+
